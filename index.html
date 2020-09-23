@@ -1,9 +1,77 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <title>TODO</title>
+ <meta charset="utf-8">
+ <title>ToDoリスト</title>
 </head>
 <body>
+  <h1>Todoリスト</h1>
+<p>
+  <input type="radio" name="status" value="1" checked="checked">全て
+  <input type="radio" name="status" value="2">作業中
+  <input type="radio" name="status" value="3">完了
+  </p>
+​
+<p></p>
+​
+  <table>
+    <thead>
+      <th>ID</th>
+      <th>コメント</th>
+      <th>状態</th>
+      <th>削除ボタン</th>
+    </thead>
+    <tbody class ="addTask-target"></tbody>
+  </table>
+​
+  <h2>新規タスクの追加</h2>
+  <input class="addTask-value" type="text" />
+  <button class="addTask-trigger" type="button">追加</button>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const addTaskTrigger = document.getElementsByClassName('addTask-trigger')[0];
+      const addTaskTarget = document.getElementsByClassName('addTask-target')[0];
+      const addTaskValue = document.getElementsByClassName('addTask-value')[0];
+let nextId = 0;
+const addTask = (task,id) => {
+
+    const tableItem = document.createElement('tr');
+    const addButtonTd = document.createElement('td');
+    const addButton = document.createElement('button');
+    const removeButtonTd = document.createElement('td');
+    const removeButton = document.createElement('button');
+
+    addButton.innerText = '作業中';
+    removeButton.innerText = '削除';
+
+    removeButton.addEventListener('click', () => removeTask(removeButton));
+
+    const idSpan = document.createElement('span');
+    idSpan.innerText = id;
+    const idSpanTd = document.createElement('td');
+    idSpanTd.append(idSpan);
+
+    const taskSpan = document.createElement('span');
+    const taskSpanTd = document.createElement('td');
+    taskSpan.innerText = task;
+    taskSpanTd.append(taskSpan);
+
+    addButtonTd.append(addButton);
+    removeButtonTd.append(removeButton);
+
+    tableItem.append(idSpanTd);
+    tableItem.append(taskSpanTd);
+    tableItem.append(addButtonTd);
+    tableItem.append(removeButtonTd);
+
+     addTaskTarget.appendChild(tableItem);
+};
+addTaskTrigger.addEventListener('click', event => {
+    const task = addTaskValue.value;
+    addTask(task,nextId ++);
+    addTaskValue.value = '';
+});
+});
+</script>
 </body>
 </html>
