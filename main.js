@@ -16,10 +16,7 @@ addButton.addEventListener('click', () => {
   todo.value = todoTable;
   todo.state = todoBtn;
 });
-const showTodoList = () => {
-  while (todoList.firstChild) {
-    todoList.textContent = '';
-  }
+
 
   todos.forEach((todo,index) => {
     const tr = document.createElement('tr');
@@ -33,7 +30,7 @@ const showTodoList = () => {
 
     const delButton = document.createElement('button');
     delButton.textContent = '削除';
-  })
+
   todoList.appendChild(tr);
   tr.appendChild(idNumber);
   tr.appendChild(tdTable);
@@ -41,4 +38,4 @@ const showTodoList = () => {
   tr.appendChild(del);
   state.appendChild(todoBtn);
   del.appendChild(delButton);
-};
+});
