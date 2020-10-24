@@ -20,8 +20,7 @@
     todo.state = todoBtn;
   });
 
-  const showTodo = () =>
-  {
+  const showTodo = () => {
     while (todoList.firstChild)
     {
       todoList.textContent = '';
@@ -37,15 +36,16 @@
 
       idNumber.textContent = index + 1;
       tdTable.textContent = todo.value;
+      
 
-      const delButton = document.createElement('button');
-      delButton.textContent = '削除';
+      const createDelBtn = () => {
+        const delButton = document.createElement('button');
+        delButton.textContent = '削除';
 
-      delButton.addEventListener('click', (event) =>
-      {
-        delTodo(index);
-      })
-
+        delButton.addEventListener('click', (event) => {
+          delTodo(index);
+        })
+      }
 
       todoList.appendChild(tr);
       tr.appendChild(idNumber);
@@ -56,8 +56,7 @@
       del.appendChild(delButton);
     });
 
-    const delList = index =>
-    {
+    const delList = index => {
       todos.splice(index, 1);
       showTodo();
     }
