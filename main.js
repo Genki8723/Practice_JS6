@@ -8,6 +8,17 @@
 
   const todoList = document.getElementById('todo-list');
 
+  const createDelBtn = (delButton) => {
+        const delButton = document.createElement('button');
+        delButton.textContent = '削除';
+        delButton.addEventListener('click', (event) => {
+          delTodo(delButton);
+        })
+      return delButton;
+      }
+
+
+
   addButton.addEventListener('click', () =>
   {
     const todoTable = inputTask.value;
@@ -37,16 +48,7 @@
       idNumber.textContent = index + 1;
       tdTable.textContent = todo.value;
       
-
-      const createDelBtn = () => {
-        const delButton = document.createElement('button');
-        delButton.textContent = '削除';
-
-        delButton.addEventListener('click', (event) => {
-          delTodo(index);
-        })
-      }
-
+      createDelBtn(delButton);
       todoList.appendChild(tr);
       tr.appendChild(idNumber);
       tr.appendChild(tdTable);
