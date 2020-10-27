@@ -1,6 +1,9 @@
 'use strict';
 (function ()
 {
+  //IDを変数として定義する
+  let keyId = 0;
+
   const todos = [];
 
   const inputTask = document.getElementById('inputTask');
@@ -8,17 +11,17 @@
 
   const todoList = document.getElementById('todo-list');
 
-  const createDelBtn = (delButton) => {
-        const delButton = document.createElement('button');
-        delButton.textContent = '削除';
-        delButton.addEventListener('click', (event) => {
-          delTodo(delButton);
-        })
+  //削除ボタンを作成する関数
+  function createDelBtn(index,delButton){
+    const delButton = document.createElement('button');
+    delButton.textContent = '削除';
+    del.appendChild(delButton);
+    delButton.addEventListener('click', (event) => {
+      todoList.removeChild(delButton.parentNode.parentNode);
       return delButton;
-      }
-
-
-
+    })
+  }
+  
   addButton.addEventListener('click', () =>
   {
     const todoTable = inputTask.value;
@@ -37,8 +40,7 @@
       todoList.textContent = '';
     }
 
-    todos.forEach((todo, index) =>
-    {
+    todos.forEach((todo, index) => {
       const tr = document.createElement('tr');
       const idNumber = document.createElement('td');
       const tdTable = document.createElement('td');
@@ -48,14 +50,13 @@
       idNumber.textContent = index + 1;
       tdTable.textContent = todo.value;
       
-      createDelBtn(delButton);
+      createDelBtn(index, delButton);
       todoList.appendChild(tr);
       tr.appendChild(idNumber);
       tr.appendChild(tdTable);
       tr.appendChild(state);
       tr.appendChild(del);
       state.appendChild(todoBtn);
-      del.appendChild(delButton);
     });
 
     const delList = index => {
