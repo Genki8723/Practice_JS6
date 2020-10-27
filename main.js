@@ -1,8 +1,6 @@
 'use strict';
 (function ()
 {
-  //IDを変数として定義する
-  let keyId = 0;
 
   const todos = [];
 
@@ -12,7 +10,7 @@
   const todoList = document.getElementById('todo-list');
 
   //削除ボタンを作成する関数
-  function createDelBtn(index,delButton){
+  function createDelBtn(index){
     const delButton = document.createElement('button');
     delButton.textContent = '削除';
     del.appendChild(delButton);
@@ -21,7 +19,7 @@
       return delButton;
     })
   }
-  
+
   addButton.addEventListener('click', () =>
   {
     const todoTable = inputTask.value;
