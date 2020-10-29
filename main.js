@@ -10,13 +10,12 @@
   const todoList = document.getElementById('todo-list');
 
   //削除ボタンを作成する関数
-  function createDelBtn(index){
+  const createDelBtn = (tr) => {
     const delButton = document.createElement('button');
     delButton.textContent = '削除';
-    del.appendChild(delButton);
-    delButton.addEventListener('click', (event) => {
-      todoList.removeChild(delButton.parentNode.parentNode);
-      return delButton;
+    delButton.addEventListener('click', () => {
+      todos.splice(tr,1);
+      showTodo();
     })
   }
 
@@ -33,8 +32,7 @@
   });
 
   const showTodo = () => {
-    while (todoList.firstChild)
-    {
+    while (todoList.firstChild) {
       todoList.textContent = '';
     }
 
