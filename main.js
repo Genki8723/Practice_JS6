@@ -23,15 +23,20 @@
     return delButton;
   }
 
-  addButton.addEventListener('click', () =>
-  {
+  addButton.addEventListener('click', () => {
     const todoTable = inputTask.value;
-    
+
     //フォームの値をクリアにする
     inputTask.value = '';
     const todoBtn = document.createElement('button');
     todoBtn.textContent = '作業中';
-
+    todoBtn.addEventListener('click' ,() => {
+      if(todoBtn.textContent === '作業中') {
+        todoBtn.textContent = '完了';
+      } else {
+        todoBtn.textContent = '作業中';
+      }
+    })
 
     const todo = {};
     todo.value = todoTable;
