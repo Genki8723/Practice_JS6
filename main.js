@@ -7,7 +7,13 @@
   const inputTask = document.getElementById('inputTask');
   const addButton = document.getElementById('addButton');
   const todoList = document.getElementById('todo-list');
-
+  const statusradioBtn = document.getElementsByName('status');
+  //ラジオボタンの状態をセット
+  const statusType = {
+    ALL: 'allBtn',
+    WORKING: 'workingBtn',
+    DONE: 'doneBtn',
+  };
   //削除を実行する関数
    const delList = index => {
       todos.splice(index, 1);
@@ -61,7 +67,8 @@
 
       idNumber.textContent = index + 1;
       tdTable.textContent = todo.value;
-      
+      const switchButton = todo.state;
+
       const delButton = createDelBtn(index);
 
       del.appendChild(delButton);
