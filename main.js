@@ -44,9 +44,11 @@
       }
     })
 
-    const todo = {};
+    const todo = {status: statusType.ALL};
+
     todo.value = todoTable;
     todo.state = todoBtn;
+
 
     todos.push(todo);
 
