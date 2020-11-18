@@ -1,41 +1,30 @@
 'use strict';
-(function ()
-{
+      const tbody = document.getElementById('todo-list');
+      const todoStatus = document.getElementsByName('status');
+      const todos = [];
+      let workingTodos;
+      let finishedTodos;
 
-  const todos = [];
+      document.getElementById('addButton').addEventListener('click', addTodo);
+      document.getElementById('allBtn').addEventListener('change', showTodo);
+      document.getElementById('workingBtn').addEventListener('change', showTodo);
+      document.getElementById('doneBtn').addEventListener('change', showTodo);
 
-  const tbody = document.getElementById('todo-list');
-  const inputTask = document.getElementById('inputTask');
-  const addButton = document.getElementById('addButton');
-  
-  const todoList = document.getElementById('todo-list');
+      function addTodo() {
+        const taskName = document.getElementById('inputTask');
+        const taskNameValue = taskName.value;
+        taskName.value = "";
+        const todo = {
+          content: taskNameValue,
+          state: '作業中'
+        }
 
-  const addBtn = document.getElementById('addButton').addEventListener('click', addTodo);
-  const allBtn = document.getElementById('allBtn').addEventListener('change', watchTodo);
-  const workingBtn = document.getElementById('workingBtn').addEventListener('change', watchTodo);
-  const doneBtn = document.getElementById('doneBtn').addEventListener('change', watchTodo);
+        todos.push(todo);
 
-  const statusRadioBtn = document.getElementsByName('status');
-  
-  let workingTodos;
-  let finishedTodos;
+        showTodo();
+      }
 
-  function addTodo() {
-    const taskName = document.getElementById('inputTask');
-    const taskNameValue = taskName.value;
-    taskName.value = "";
-       const todo = {
-         status: statusType.ALL,
-         content: taskNameValue,
-         state: '作業中'
-       }
-    todos.push(todo);
-    watchTodo();
-  }
-
-
-
-   function createElement(arrayTodo) {
+      function createElement(arrayTodo) {
         for (let i = 0; i < arrayTodo.length; i++) {
           const tr = document.createElement('tr');
           const idNumber = document.createElement('td');
@@ -43,21 +32,21 @@
           const state = document.createElement('td');
           const del = document.createElement('td');
 
-          const stateButton = document.createElement('button');
-          const removeButton = document.createElement('button');
+          const stateBtn = document.createElement('button');
+          const delBtn = document.createElement('button');
 
           idNumber.innerHTML = arrayTodo[i].number;
           tdTable.innerHTML = arrayTodo[i].content;
-          stateButton.innerHTML = arrayTodo[i].state;
-          removeButton.innerHTML = "削除";
+          stateBtn.innerHTML = arrayTodo[i].state;
+          delBtn.innerHTML = "削除";
 
-          state.appendChild(stateButton);
-          del.appendChild(removeButton);
+          state.appendChild(stateBtn);
+          del.appendChild(delBtn);
 
-          stateButton.classList.add('state');
-          stateButton.id = i;
-          removeButton.classList.add('remove');
-          removeButton.id = i;
+          stateBtn.classList.add('state');
+          stateBtn.id = i;
+          delBtn.classList.add('remove');
+          delBtn.id = i;
 
           tr.appendChild(idNumber);
           tr.appendChild(tdTable);
@@ -68,166 +57,79 @@
         }
       }
 
-  //ラジオボタンの状態をセット
-  const statusType = {
-    ALL: 'allBtn',
-    WORKING: 'workingBtn',
-    DONE: 'doneBtn',
-  };
+      function showTodo() {
+        for (let i = tbody.childNodes.length - 1; i >= 0; i--) {
+          tbody.removeChild(tbody.childNodes[i]);
+        }
+        for (let i = 0; i < todos.length; i++) {
+          todos[i].number = i;
+        }
 
-  //削除を実行する関数
-  const delList = index =>
-  {
-    todos.splice(index, 1);
-    showTodo();
-  }
-  
-  //削除ボタンを作成する関数
-  const createDelBtn = (index) =>
-  {
-    const delButton = document.createElement('button');
-    delButton.textContent = '削除';
-    delButton.addEventListener('click', () =>
-    {
-      delList(index);
-    })
-    return delButton;
-  }
+        if (todoStatus[0].checked) {
+          createElement(todos);
+        } else if (todoStatus[1].checked) {
+          workingTodos = todos.filter(todo => todo.state === '作業中');
+          createElement(workingTodos);
+        } else if (todoStatus[2].checked) {
+          finishedTodos = todos.filter(todo => todo.state === '完了');
+          createElement(finishedTodos);
+        }
 
-  addButton.addEventListener('click', () =>
-  {
-    const todoTable = inputTask.value;
+        const stateButtons = document.getElementsByClassName('state');
+        for (let i = 0; i < stateButtons.length; i++) {
+          stateButtons[i].addEventListener('click', changeState);
+        };
 
-    //フォームの値をクリアにする
-    inputTask.value = '';
-    const todoBtn = document.createElement('button');
-    todoBtn.textContent = '作業中';
-    todoBtn.addEventListener('click', () =>
-    {
-      if (todoBtn.textContent === '作業中')
-      {
-        todoBtn.textContent = '完了';
-      } else
-      {
-        todoBtn.textContent = '作業中';
+        const removeButtons = document.getElementsByClassName('remove');
+        for (let i = 0; i < removeButtons.length; i++) {
+          removeButtons[i].addEventListener('click', remove);
+        };
       }
-    })
 
+      function changeState() {
+        for (let i = tbody.childNodes.length - 1; i >= 0; i--) {
+          tbody.removeChild(tbody.childNodes[i]);
+        }
+        let id = this.getAttribute('id');
 
+        if (todoStatus[0].checked)
+        {
+          if (todos[id].state === '作業中') {
+            todos[id].state = '完了';
+          } else {
+            todos[id].state = '作業中';
+          }
+          showTodo();
+        } else if (todoStatus[1].checked) {
+          if (workingTodos[id].state === '作業中') {
+            workingTodos[id].state = '完了';
+          } else {
+            workingTodos[id].state = '作業中';
+          }
+          showTodo();
+        } else if (todoStatus[2].checked) {
+          if (finishedTodos[id].state === '作業中') {
+            finishedTodos[id].state = '完了';
+          } else {
+            finishedTodos[id].state = '作業中';
+          }
+          showTodo();
+        }
 
-    todo.value = todoTable;
-    todo.state = todoBtn;
-
-    todos.push(todo);
-
-    showTodo();
-  });
-
-  function watchTodo()
-  {
-    for (let i = tbody.childNodes.length - 1; i >= 0; i--)
-    {
-      tbody.removeChild(tbody.childNodes[i]);
-    }
-    for (let i = 0; i < todos.length; i++)
-    {
-      todos[i].number = i;
-    }
-
-    if (statusRadioBtn[0].checked) {
-      createElement(todos);
-    } else if (statusRadioBtn[1].checked)
-    {
-      workingTodos = todos.filter(todo => todo.state === '作業中');
-      createElement(workingTodos);
-    } else if (statusRadioBtn[2].checked)
-    {
-      finishedTodos = todos.filter(todo => todo.state === '完了');
-      createElement(finishedTodos);
-    }
-
-    const stateButtons = document.getElementsByClassName('state');
-    for (let i = 0; i < stateButtons.length; i++)
-    {
-      stateButtons[i].addEventListener('click', changeState);
-    };
-
-    const removeButtons = document.getElementsByClassName('remove');
-    for (let i = 0; i < removeButtons.length; i++)
-    {
-      removeButtons[i].addEventListener('click', remove);
-    };
-  }
-
-  function changeState()
-  {
-    while (todoList.firstChild)
-    {
-      todoList.textContent = '';
-    }
-    for (let i = tbody.childNodes.length - 1; i >= 0; i--)
-    {
-      tbody.removeChild(tbody.childNodes[i]);
-    }
-    let id = this.getAttribute('id');
-
-    if (statusRadioBtn[0].checked)
-    {
-      if (todos[id].state === '作業中')
-      {
-        todos[id].state = '完了';
-      } else
-      {
-        todos[id].state = '作業中';
       }
-      watchTodo();
-    } else if (statusRadioBtn[1].checked)
-    {
-      if (workingTodos[id].state === '作業中')
-      {
-        workingTodos[id].state = '完了';
-      } else
-      {
-        workingTodos[id].state = '作業中';
+
+      function remove() {
+        for (let i = tbody.childNodes.length - 1; i >= 0; i--) {
+          tbody.removeChild(tbody.childNodes[i]);
+        }
+        let id = this.getAttribute('id');
+
+        if (todoStatus[0].checked) {
+          todos.splice(id, 1);
+        } else if (todoStatus[1].checked) {
+          todos.splice(workingTodos[id].number, 1);
+        } else if (todoStatus[2].checked) {
+          todos.splice(finishedTodos[id].number, 1);
+        }
+        showTodo();
       }
-      watchTodo();
-    } else if (statusRadioBtn[2].checked)
-    {
-      if (finishedTodos[id].state === '作業中')
-      {
-        finishedTodos[id].state = '完了';
-      } else
-      {
-        finishedTodos[id].state = '作業中';
-      }
-      watchTodo();
-    }
-  }
-
-
-  function remove () {
-    for (let i = tbody.childNodes.length - 1; i >= 0; i--) {
-      tbody.removeChild(tbody.childNodes[i]);
-    }
-    let id = this.getAttribute('id');
-
-    if (todoShow[0].checked) {
-      todos.splice(id, 1);
-    } else if (todoShow[1].checked) {
-      todos.splice(workingTodos[id].number, 1);
-    } else if (todoShow[2].checked) {
-      todos.splice(finishedTodos[id].number, 1);
-    }
-    watchTodo();
-  }
-  const showTodo = () =>
-  {
-    while (todoList.firstChild)
-    {
-      todoList.textContent = '';
-    }
-
-    };
-  }
-  
-)
