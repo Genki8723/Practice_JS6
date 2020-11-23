@@ -1,5 +1,7 @@
 'use strict';
 
+(function ()
+{
   const tbody = document.getElementById('todo-list');
   const todoStatus = document.getElementsByName('status');
   const todos = [];
@@ -19,44 +21,46 @@
       state: '作業中'
     }
 
-    todos.push(todo);
 
+    todos.push(todo);
     showTodo();
+  
   }
 
-  function createElement(arrayTodo)
-  {
-    for (let i = 0; i < arrayTodo.length; i++)
-    {
-      const tr = document.createElement('tr');
-      const idNumber = document.createElement('td');
-      const tdTable = document.createElement('td');
-      const state = document.createElement('td');
-      const del = document.createElement('td');
+    function createElement() {
+      todos.forEach((arrayTodo,i) => {
+        const tr = document.createElement('tr');
+        const idNumber = document.createElement('td');
+        const tdTable = document.createElement('td');
+        const state = document.createElement('td');
+        const del = document.createElement('td');
 
-      const stateBtn = document.createElement('button');
-      const delBtn = document.createElement('button');
+        const stateBtn = document.createElement('button');
+        const delBtn = document.createElement('button');
 
-      idNumber.innerHTML = arrayTodo[i].number;
-      tdTable.innerHTML = arrayTodo[i].content;
-      stateBtn.innerHTML = arrayTodo[i].state;
-      delBtn.innerHTML = "削除";
 
-      state.appendChild(stateBtn);
-      del.appendChild(delBtn);
+        
+        idNumber.innerHTML = arrayTodo.number;
+        tdTable.innerHTML = arrayTodo.content;
+        stateBtn.innerHTML = arrayTodo.state;
+        delBtn.innerHTML = '削除';
 
-      stateBtn.classList.add('state');
-      stateBtn.id = i;
-      delBtn.classList.add('remove');
-      delBtn.id = i;
+        state.appendChild(stateBtn);
+        del.appendChild(delBtn);
 
-      tr.appendChild(idNumber);
-      tr.appendChild(tdTable);
-      tr.appendChild(state);
-      tr.appendChild(del);
+        stateBtn.classList.add('state');
+        stateBtn.id = i;
+        delBtn.classList.add('remove');
+        delBtn.id = i;
 
-      tbody.appendChild(tr);
-    }
+        tr.appendChild(idNumber);
+        tr.appendChild(tdTable);
+        tr.appendChild(state);
+        tr.appendChild(del);
+
+        tbody.appendChild(tr);
+
+      })
   }
 
   function showTodo()
@@ -158,3 +162,4 @@
     }
     showTodo();
   }
+}());
