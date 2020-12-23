@@ -3,13 +3,18 @@
 (function ()
 {
   const tbody = document.getElementById('todo-list');
-  const todoStatus = document.getElementsByName('status');
+  const todoStatus = document.getElementsByName('state');
   const todos = [];
+
+  let workingTodos;
+  let finishedTodos;
 
   document.getElementById('addButton').addEventListener('click', addTodo);
   document.getElementById('allBtn').addEventListener('change', showTodo);
   document.getElementById('workingBtn').addEventListener('change', showTodo);
   document.getElementById('doneBtn').addEventListener('change', showTodo);
+
+
 
   function addTodo()
   {
@@ -27,63 +32,63 @@
   
   }
 
-    function createElement() {
-      todos.forEach((arrayTodo,i) => {
-        const tr = document.createElement('tr');
-        const idNumber = document.createElement('td');
-        const tdTable = document.createElement('td');
-        const state = document.createElement('td');
-        const del = document.createElement('td');
+  function createElement(allTodo)
+  {
+    for (let i = 0; i < allTodo.length; i++)
+    {
 
-        const stateBtn = document.createElement('button');
-        const delBtn = document.createElement('button');
+      const tr = document.createElement('tr');
+      const idNumber = document.createElement('td');
+      const tdTable = document.createElement('td');
+      const state = document.createElement('td');
+      const del = document.createElement('td');
+
+      const stateBtn = document.createElement('button');
+      const delBtn = document.createElement('button');
 
 
         
-        idNumber.innerHTML = arrayTodo.number;
-        tdTable.innerHTML = arrayTodo.content;
-        stateBtn.innerHTML = arrayTodo.state;
-        delBtn.innerHTML = '削除';
+      idNumber.textContent = allTodo[i].number;
+      tdTable.textContent = allTodo[i].content;
+      stateBtn.innerHTML = allTodo[i].state;
+      delBtn.innerHTML = '削除';
 
-        state.appendChild(stateBtn);
-        del.appendChild(delBtn);
+      state.appendChild(stateBtn);
+      del.appendChild(delBtn);
 
-        stateBtn.classList.add('state');
-        stateBtn.id = i;
-        delBtn.classList.add('remove');
-        delBtn.id = i;
+      stateBtn.classList.add('state');
+      stateBtn.id = i;
+      delBtn.classList.add('remove');
+      delBtn.id = i;
 
-        tr.appendChild(idNumber);
-        tr.appendChild(tdTable);
-        tr.appendChild(state);
-        tr.appendChild(del);
+      tr.appendChild(idNumber);
+      tr.appendChild(tdTable);
+      tr.appendChild(state);
+      tr.appendChild(del);
 
-        tbody.appendChild(tr);
-
-      })
+      tbody.appendChild(tr);
+    }
   }
+  
 
-  function showTodo()
-  {
+  function showTodo() {
     for (let i = tbody.childNodes.length - 1; i >= 0; i--)
     {
       tbody.removeChild(tbody.childNodes[i]);
     }
-    for (let i = 0; i < todos.length; i++)
-    {
+    for (let i = 0; i < todos.length; i++) {
       todos[i].number = i;
     }
 
-    if (todoStatus[0].checked)
-    {
+    if (todoStatus[0].checked){
       createElement(todos);
     } else if (todoStatus[1].checked)
     {
-      const workingTodos = todos.filter(todo => todo.state === '作業中');
+       workingTodos = todos.filter(todo => todo.state === '作業中');
       createElement(workingTodos);
     } else if (todoStatus[2].checked)
     {
-      const finishedTodos = todos.filter(todo => todo.state === '完了');
+       finishedTodos = todos.filter(todo => todo.state === '完了');
       createElement(finishedTodos);
     }
 
@@ -108,7 +113,7 @@
     }
     let id = this.getAttribute('id');
 
-    if (todoStatus[0].checked)
+    if (todoStatus[id].checked)
     {
       if (todos[id].state === '作業中')
       {
@@ -148,18 +153,21 @@
     {
       tbody.removeChild(tbody.childNodes[i]);
     }
-    let id = this.getAttribute('id');
 
-    if (todoStatus[0].checked)
-    {
-      todos.splice(id, 1);
-    } else if (todoStatus[1].checked)
-    {
-      todos.splice(workingTodos[id].number, 1);
-    } else if (todoStatus[2].checked)
-    {
-      todos.splice(finishedTodos[id].number, 1);
+    
+    
+    let id = this.getAttribute('id');
+      if (todoStatus[0].checked)
+      {
+        todos.splice(id, 1);
+      } else if (todoStatus[1].checked)
+      {
+        todos.splice(workingTodos[id]);
+      } else if (todoStatus[2].checked)
+      {
+        todos.splice(finishedTodos[id]);
+        console.log('debug');
+      }
+      showTodo();
     }
-    showTodo();
-  }
 }());
