@@ -3,7 +3,7 @@
 (function ()
 {
   const tbody = document.getElementById('todo-list');
-  const todoStatus = document.getElementsByName('state');
+  const todoStatus = document.getElementsByName('status');
   const todos = [];
 
   let workingTodos;
@@ -34,8 +34,7 @@
 
   function createElement(allTodo)
   {
-    for (let i = 0; i < allTodo.length; i++)
-    {
+    for (let i = 0; i < allTodo.length; i++) {
 
       const tr = document.createElement('tr');
       const idNumber = document.createElement('td');
@@ -48,8 +47,8 @@
 
 
         
-      idNumber.textContent = allTodo[i].number;
-      tdTable.textContent = allTodo[i].content;
+      idNumber.innerHTML = allTodo[i].number;
+      tdTable.innerHTML = allTodo[i].content;
       stateBtn.innerHTML = allTodo[i].state;
       delBtn.innerHTML = '削除';
 
@@ -153,20 +152,16 @@
     {
       tbody.removeChild(tbody.childNodes[i]);
     }
-
-    
-    
     let id = this.getAttribute('id');
-      if (todoStatus[0].checked)
-      {
+      if (todoStatus[0].checked) {
         todos.splice(id, 1);
-      } else if (todoStatus[1].checked)
-      {
-        todos.splice(workingTodos[id]);
-      } else if (todoStatus[2].checked)
-      {
-        todos.splice(finishedTodos[id]);
-        console.log('debug');
+        console.log('firstCheck');
+      } else if (todoStatus[1].checked) {
+        console.log('secondCheck');
+        todos.splice(workingTodos[id].number,1);
+      } else if (todoStatus[2].checked) {
+        todos.splice(finishedTodos[id].number, 1);
+        console.log('removeCheck');
       }
       showTodo();
     }
