@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
- <meta charset="utf-8">
- <title>ToDoリスト</title>
-</head>
-<body>
-  <h1>Todoリスト</h1>
-  <input id="allBtn" type="radio" name="status" value="1" checked="checked">すべて
-  <input id="workingBtn" type="radio" name="status" value="2">作業中
-  <input id="doneBtn" type="radio" name="status" value="3">完了
-
-​
-  <table>
-    <thead>
-      <th>ID</th>
-      <th>コメント</th>
-      <th>状態</th>
-      <th>削除</th>
-    </thead>
-    <tbody id = "todo-list"></tbody>
-  </table>
-​
-  <h2>新規タスクの追加</h2>
-  <input id="inputTask" type="text">
-  <button id ="addButton" type="button">追加</button>
-<script src = "main.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>ToDoリスト</title>
+  </head>
+  <body>
+    <h1>Todoリスト</h1>
+    <input id="allBtn"type="radio"name="status"value="1" checked="checked"
+    />すべて
+    <input id="workingBtn" type="radio" name="status" value="2" />作業中
+    <input id="doneBtn" type="radio" name="status" value="3" />完了 ​
+    <table>
+      <thead>
+        <th>ID</th>
+        <th>コメント</th>
+        <th>状態</th>
+        <th>削除</th>
+      </thead>
+      <tbody id="todo-list"></tbody>
+    </table>
+    ​
+    <h2>新規タスクの追加</h2>
+    <input id="inputTask" type="text" value=" " />
+    <button id="addButton" type="button">追加</button>
+    <script src="main.js"></script>
+  </body>
 </html>
